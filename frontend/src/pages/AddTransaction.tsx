@@ -1,4 +1,5 @@
 import { useRef, FormEvent } from "react";
+import { useRef, useEffect, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFinance } from "../context/FinanceContext";
 import { Transaction, Category, TransactionType } from "../types/finance";
@@ -7,6 +8,9 @@ export default function AddTransaction() {
   const { addTransaction } = useFinance();
   const navigate = useNavigate();
 
+  useEffect(() => {
+  descriptionRef.current?.focus();
+}, []);
   const descriptionRef = useRef<HTMLInputElement>(null);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
