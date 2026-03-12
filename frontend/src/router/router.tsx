@@ -3,6 +3,7 @@ import RootLayout from "../layouts/RootLayout";
 import Dashboard from "../pages/Dashboard";
 import Transactions from "../pages/Transactions";
 import AddTransaction from "../pages/AddTransaction";
+import { transactionsLoader } from "../loaders/transactionsLoader";
 
 export const router = createBrowserRouter([
   {
@@ -16,6 +17,7 @@ export const router = createBrowserRouter([
       {
         path: "transactions",
         element: <Transactions />,
+        loader: transactionsLoader,
       },
       {
         path: "transactions/add",
