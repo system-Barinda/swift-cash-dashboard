@@ -6,6 +6,7 @@ import Transactions from "../pages/Transactions";
 import AddTransaction from "../pages/AddTransaction";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
+import TransactionDetails from "./pages/TransactionDetails";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
         path: "transactions/add",
         element: <AddTransaction />,
       },
+      {
+         path:"/transactions/:id",
+         element:<TransactionDetails />
+   }
     ],
   },
 

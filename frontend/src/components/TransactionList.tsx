@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Transaction } from "../types/finance";
 
 type Props = {
@@ -23,20 +24,23 @@ export default function TransactionList({
       {transactions.map((t) => (
         <li
           key={t.id}
-          className="flex justify-between items-center p-4 border-b"
+          className="flex justify-between items-center p-4 border-b hover:bg-gray-50"
         >
 
-          <div>
-            <p className="font-semibold">
-              {t.description}
-            </p>
+          <Link
+            to={`/transactions/${t.id}`}
+            className="flex justify-between items-center w-full"
+          >
 
-            <p className="text-sm text-gray-500">
-              {t.category} • {new Date(t.date).toLocaleDateString()}
-            </p>
-          </div>
+            <div>
+              <p className="font-semibold">
+                {t.description}
+              </p>
 
-          <div className="flex items-center gap-4">
+              <p className="text-sm text-gray-500">
+                {t.category} • {new Date(t.date).toLocaleDateString()}
+              </p>
+            </div>
 
             <span
               className={
@@ -48,14 +52,14 @@ export default function TransactionList({
               {t.type === "income" ? "+" : "-"}${t.amount}
             </span>
 
-            <button
-              onClick={() => deleteTransaction(t.id)}
-              className="text-sm text-red-500 hover:underline"
-            >
-              Delete
-            </button>
+          </Link>
 
-          </div>
+          <button
+            onClick={() => deleteTransaction(t.id)}
+            className="text-sm text-red-500 hover:underline ml-4"
+          >
+            Delete
+          </button>
 
         </li>
       ))}
