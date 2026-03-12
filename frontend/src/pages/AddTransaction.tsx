@@ -1,4 +1,3 @@
-import { useRef, FormEvent } from "react";
 import { useRef, useEffect, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFinance } from "../context/FinanceContext";
@@ -8,10 +7,11 @@ export default function AddTransaction() {
   const { addTransaction } = useFinance();
   const navigate = useNavigate();
 
-  useEffect(() => {
-  descriptionRef.current?.focus();
-}, []);
   const descriptionRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    descriptionRef.current?.focus();
+  }, []);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,7 +48,6 @@ export default function AddTransaction() {
       <h1 className="text-2xl font-bold mb-6">Add Transaction</h1>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-
         <input
           ref={descriptionRef}
           name="description"
@@ -87,7 +86,6 @@ export default function AddTransaction() {
         >
           Add Transaction
         </button>
-
       </form>
     </div>
   );
