@@ -5,7 +5,7 @@ import {
   ReactNode,
 } from "react";
 import { financeReducer } from "./financeReducer";
-import { FinanceState, Transaction } from "../types/finance";
+import type { FinanceState, Transaction } from "../types/finance";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type FinanceContextType = {

@@ -1,4 +1,4 @@
-import { FinanceState, Transaction } from "../types/finance";
+import type { FinanceState, Transaction } from "../types/finance";
 
 type Action =
   | { type: "ADD_TRANSACTION"; payload: Transaction }

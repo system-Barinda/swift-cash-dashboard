@@ -1,11 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { RouterProvider } from "react-router-dom"
-import { router } from "./router/router"
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./router/router";
+import { FinanceProvider } from "./context/FinanceContext";
+import "./index.css";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <FinanceProvider>
       <RouterProvider router={router} />
-  </StrictMode>,
-)
+    </FinanceProvider>
+  </React.StrictMode>
+);
