@@ -1,14 +1,33 @@
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import { useFinance } from "../context/FinanceContext";
 import CurrencyWidget from "../components/CurrencyWidget";
 import SpendingChart from "../components/SpendingChart";
 import CategoryChart from "../components/CategoryChart";
 
 export default function Dashboard() {
+
   const { state } = useFinance();
   const { transactions } = state;
 
+  const [userEmail, setUserEmail] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const decoded: any = jwtDecode(token);
+      setUserEmail(decoded.email);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
+  };
+
   const { balance, income, expense } = useMemo(() => {
+
     let income = 0;
     let expense = 0;
 
@@ -25,6 +44,7 @@ export default function Dashboard() {
       expense,
       balance: income - expense,
     };
+
   }, [transactions]);
 
   return (
@@ -42,11 +62,28 @@ export default function Dashboard() {
           </p>
         </div>
 
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-          alt="dashboard"
-          className="w-16 h-16 md:w-20 md:h-20"
-        />
+        {/* User Account */}
+        <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-xl shadow">
+
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+            alt="user"
+            className="w-8 h-8"
+          />
+
+          <span className="font-medium text-slate-700">
+            {userEmail}
+          </span>
+
+          <button
+            onClick={handleLogout}
+            className="text-sm text-red-500 hover:underline"
+          >
+            Logout
+          </button>
+
+        </div>
+
       </div>
 
       {/* Summary Cards */}
