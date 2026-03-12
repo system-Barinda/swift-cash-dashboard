@@ -1,10 +1,18 @@
 import { useMemo } from "react";
 import { useFinance } from "../context/FinanceContext";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLoaderData } from "react-router-dom";
+import type { Transaction } from "../types/finance";
 
 export default function Transactions() {
   const { state, deleteTransaction } = useFinance();
-  const { transactions } = state;
+
+  const loadedTransactions = useLoaderData() as Transaction[];
+
+  // Use context transactions if available, otherwise loader data
+  const transactions =
+    state.transactions.length > 0
+      ? state.transactions
+      : loadedTransactions;
 
   const [searchParams, setSearchParams] = useSearchParams();
   const typeFilter = searchParams.get("type");
