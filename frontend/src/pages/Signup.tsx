@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { signup } from "../api/authApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Signup() {
 
@@ -12,30 +12,49 @@ export default function Signup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = await signup(email, password);
+    try {
 
-    alert(data.message);
+      const data = await signup(email, password);
 
-    navigate("/login");
+      alert(data.message);
+
+      navigate("/login");
+
+    } catch (error) {
+      alert("Signup failed");
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
 
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-      />
+      <h2>Create Account</h2>
 
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+      <form onSubmit={handleSubmit}>
 
-      <button>Sign Up</button>
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-    </form>
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button type="submit">Sign Up</button>
+
+      </form>
+
+      <p>
+        Already have an account?{" "}
+        <Link to="/login">Login</Link>
+      </p>
+
+    </div>
   );
 }

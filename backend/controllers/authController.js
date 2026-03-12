@@ -4,10 +4,21 @@ const { findUserByEmail, createUser } = require("../models/userModel");
 
 const SECRET = "supersecretkey";
 
-/* SIGNUP */
+/* =========================
+   SIGNUP
+========================= */
+
 async function signup(req, res) {
+
   try {
+
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required"
+      });
+    }
 
     const userExists = await findUserByEmail(email);
 
@@ -21,22 +32,39 @@ async function signup(req, res) {
 
     await createUser(email, hashedPassword);
 
-    res.json({
+    res.status(201).json({
       message: "Account created successfully"
     });
 
   } catch (error) {
+
+    console.error("Signup error:", error);
+
     res.status(500).json({
-      error: error.message
+      message: "Server error"
     });
+
   }
 }
 
-/* LOGIN */
+
+/* =========================
+   LOGIN
+========================= */
+
 async function login(req, res) {
+
   try {
 
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required"
+      });
+    }
+
+    console.log("Login attempt:", email);
 
     const user = await findUserByEmail(email);
 
@@ -55,9 +83,14 @@ async function login(req, res) {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      {
+        id: user.id,
+        email: user.email
+      },
       SECRET,
-      { expiresIn: "1h" }
+      {
+        expiresIn: "1h"
+      }
     );
 
     res.json({
@@ -66,9 +99,13 @@ async function login(req, res) {
     });
 
   } catch (error) {
+
+    console.error("Login error:", error);
+
     res.status(500).json({
-      error: error.message
+      message: "Server error"
     });
+
   }
 }
 
