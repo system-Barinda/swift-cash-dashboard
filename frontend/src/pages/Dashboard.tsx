@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useFinance } from "../context/FinanceContext";
+import CurrencyWidget from "../components/CurrencyWidget";
 
 export default function Dashboard() {
   const { state } = useFinance();
@@ -29,9 +30,9 @@ export default function Dashboard() {
 
       <h1 className="text-2xl font-bold">Dashboard</h1>
 
+      {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        {/* Balance Card */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-gray-500 text-sm">Total Balance</h2>
           <p className="text-2xl font-bold text-blue-600">
@@ -39,7 +40,6 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* Income Card */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-gray-500 text-sm">Total Income</h2>
           <p className="text-2xl font-bold text-green-600">
@@ -47,7 +47,6 @@ export default function Dashboard() {
           </p>
         </div>
 
-        {/* Expense Card */}
         <div className="bg-white p-6 rounded-lg shadow">
           <h2 className="text-gray-500 text-sm">Total Expenses</h2>
           <p className="text-2xl font-bold text-red-600">
@@ -56,6 +55,9 @@ export default function Dashboard() {
         </div>
 
       </div>
+
+      {/* Currency Widget */}
+      <CurrencyWidget balance={balance} />
 
     </div>
   );

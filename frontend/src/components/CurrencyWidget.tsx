@@ -45,30 +45,27 @@ export default function CurrencyWidget({ balance }: Props) {
     return () => controller.abort();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="bg-white p-6 rounded shadow">
-        Syncing exchange rates...
-      </div>
-    );
-  }
-
-  if (!rates) return null;
-
   return (
-    <div className="bg-white p-6 rounded shadow space-y-2">
-      <h2 className="font-semibold">Market Overview</h2>
+    <div className="bg-white p-6 rounded-lg shadow">
+      <h2 className="text-lg font-semibold mb-4">Market Overview</h2>
 
-      <p>USD: ${balance.toFixed(2)}</p>
+      {loading && (
+        <p className="text-gray-500">Syncing exchange rates...</p>
+      )}
 
-      <p>
-        EUR: €
-        {(balance * rates.EUR).toFixed(2)}
-      </p>
+      {rates && (
+        <div className="space-y-2">
+          <p>USD: <strong>${balance.toFixed(2)}</strong></p>
 
-      <p>
-        RWF: {(balance * rates.RWF).toLocaleString()} RWF
-      </p>
+          <p>
+            EUR: <strong>€{(balance * rates.EUR).toFixed(2)}</strong>
+          </p>
+
+          <p>
+            RWF: <strong>{(balance * rates.RWF).toLocaleString()} RWF</strong>
+          </p>
+        </div>
+      )}
     </div>
   );
 }
