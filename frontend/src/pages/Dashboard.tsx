@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useFinance } from "../context/FinanceContext";
 import CurrencyWidget from "../components/CurrencyWidget";
 import SpendingChart from "../components/SpendingChart";
+import CategoryChart from "../components/CategoryChart";
 
 export default function Dashboard() {
   const { state } = useFinance();
@@ -112,7 +113,8 @@ export default function Dashboard() {
         )}
 
       </div>
-
+     {/* Category Chart */}
+<CategoryChart />
     </div>
   );
 }
