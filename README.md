@@ -7,7 +7,33 @@ swift-cash-dashboard/
 │
 ├── frontend/          # React, Vue, Angular etc
 │   ├── public/
-│   ├── src/
+|   ├── src
+│   ├── components
+│   │   ├── Sidebar.tsx
+│   │   ├── TransactionItem.tsx
+│   │   └── SummaryCard.tsx
+│   │
+│   ├── pages
+│   │   ├── Dashboard.tsx
+│   │   ├── Transactions.tsx
+│   │   └── AddTransaction.tsx
+│   │
+│   ├── context
+│   │   └── FinanceContext.tsx
+│   │
+│   ├── hooks
+│   │   └── useLocalStorage.ts
+│   │
+│   ├── layouts
+│   │   └── RootLayout.tsx
+│   │
+│   ├── router
+│   │   └── router.tsx
+│   │
+│   ├── types
+│   │   └── finance.ts
+│   │
+│   └── main.tsx
 │   ├── package.json
 │   └── README.md
 │
