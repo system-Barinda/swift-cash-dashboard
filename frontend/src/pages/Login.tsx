@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { login } from "../api/authApi";
-import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
@@ -8,59 +6,64 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login: saveToken } = useAuth();
-
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent) {
 
     e.preventDefault();
 
     try {
 
-      const data = await login(email, password);
+      const res = await fetch(
+        "http://localhost:5000/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
+      if (!res.ok) {
+        throw new Error("Server error");
+      }
+
+      const data = await res.json();
 
       if (data.token) {
 
-        saveToken(data.token);
+        localStorage.setItem("token", data.token);
 
-        navigate("/"); // FIXED
+        navigate("/");
 
       } else {
-        alert("Login failed");
+        alert("Invalid login");
       }
 
     } catch (error) {
 
       console.error(error);
-
-      alert("Server error");
+      alert("Login failed. Check server.");
 
     }
-
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit}>
-
       <input
         type="email"
         placeholder="Email"
-        required
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
         type="password"
         placeholder="Password"
-        required
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button type="submit">
-        Login
-      </button>
-
+      <button type="submit">Login</button>
     </form>
   );
 }
