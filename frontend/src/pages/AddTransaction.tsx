@@ -1,7 +1,7 @@
 import { useRef, useEffect, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFinance } from "../context/FinanceContext";
-import { Transaction, Category, TransactionType } from "../types/finance";
+import type { Transaction, Category, TransactionType } from "../types/finance";
 
 export default function AddTransaction() {
   const { addTransaction } = useFinance();
