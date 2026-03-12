@@ -1,14 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
+
 import RootLayout from "../layouts/RootLayout";
 import Dashboard from "../pages/Dashboard";
 import Transactions from "../pages/Transactions";
 import AddTransaction from "../pages/AddTransaction";
+import Login from "../pages/Login";
+import Signup from "../pages/Signup";
+
+import ProtectedRoute from "../components/ProtectedRoute";
+
 import { transactionsLoader } from "../loaders/transactionsLoader";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: (
+      <ProtectedRoute>
+        <RootLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -24,5 +34,17 @@ export const router = createBrowserRouter([
         element: <AddTransaction />,
       },
     ],
+  },
+
+  /* AUTH ROUTES */
+
+  {
+    path: "/login",
+    element: <Login />,
+  },
+
+  {
+    path: "/signup",
+    element: <Signup />,
   },
 ]);

@@ -12,20 +12,32 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault();
 
-    const data = await login(email, password);
+    try {
 
-    if (data.token) {
+      const data = await login(email, password);
 
-      saveToken(data.token);
+      if (data.token) {
 
-      navigate("/dashboard");
+        saveToken(data.token);
 
-    } else {
-      alert("Login failed");
+        navigate("/"); // FIXED
+
+      } else {
+        alert("Login failed");
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      alert("Server error");
+
     }
+
   };
 
   return (
@@ -34,16 +46,20 @@ export default function Login() {
       <input
         type="email"
         placeholder="Email"
+        required
         onChange={(e) => setEmail(e.target.value)}
       />
 
       <input
         type="password"
         placeholder="Password"
+        required
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <button>Login</button>
+      <button type="submit">
+        Login
+      </button>
 
     </form>
   );
