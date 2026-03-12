@@ -1,5 +1,6 @@
 import { Outlet, useNavigation } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function RootLayout() {
 
@@ -13,7 +14,7 @@ export default function RootLayout() {
       <Header />
 
       {/* Page Content */}
-      <main className="flex-1 p-6 max-w-7xl mx-auto w-full">
+      <main className="flex-1 w-full max-w-7xl mx-auto p-6">
 
         {/* Global Loading Indicator */}
         {isLoading && (
@@ -25,6 +26,9 @@ export default function RootLayout() {
         <Outlet />
 
       </main>
+
+      {/* Footer */}
+      <Footer />
 
     </div>
   );

@@ -6,10 +6,9 @@ import Transactions from "../pages/Transactions";
 import AddTransaction from "../pages/AddTransaction";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
-import TransactionDetails from "./pages/TransactionDetails";
+import TransactionDetails from "../pages/TransactionDetails";
 
 import ProtectedRoute from "../components/ProtectedRoute";
-
 import { transactionsLoader } from "../loaders/transactionsLoader";
 
 export const router = createBrowserRouter([
