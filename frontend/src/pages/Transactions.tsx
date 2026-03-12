@@ -1,9 +1,18 @@
 import { useMemo } from "react";
 import { useFinance } from "../context/FinanceContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function Transactions() {
   const { state, deleteTransaction } = useFinance();
   const { transactions } = state;
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const typeFilter = searchParams.get("type");
+
+  const filteredTransactions = useMemo(() => {
+    if (!typeFilter) return transactions;
+    return transactions.filter((t) => t.type === typeFilter);
+  }, [transactions, typeFilter]);
 
   const balance = useMemo(() => {
     return transactions.reduce((total, t) => {
@@ -13,12 +22,20 @@ export default function Transactions() {
     }, 0);
   }, [transactions]);
 
+  function handleFilter(type: string | null) {
+    if (type) {
+      setSearchParams({ type });
+    } else {
+      setSearchParams({});
+    }
+  }
+
   return (
     <div className="p-6 space-y-6">
-      
+
       <h1 className="text-2xl font-bold">Transactions</h1>
 
-      {/* Balance Card */}
+      {/* Balance */}
       <div className="bg-white p-4 rounded shadow">
         <h2 className="text-lg font-semibold">Total Balance</h2>
         <p className="text-2xl font-bold text-green-600">
@@ -26,15 +43,40 @@ export default function Transactions() {
         </p>
       </div>
 
-      {/* Transactions List */}
+      {/* Filters */}
+      <div className="flex gap-3">
+        <button
+          onClick={() => handleFilter(null)}
+          className="px-3 py-1 bg-gray-200 rounded"
+        >
+          All
+        </button>
+
+        <button
+          onClick={() => handleFilter("income")}
+          className="px-3 py-1 bg-green-200 rounded"
+        >
+          Income
+        </button>
+
+        <button
+          onClick={() => handleFilter("expense")}
+          className="px-3 py-1 bg-red-200 rounded"
+        >
+          Expense
+        </button>
+      </div>
+
+      {/* Transactions */}
       <div className="bg-white rounded shadow">
-        {transactions.length === 0 ? (
+
+        {filteredTransactions.length === 0 ? (
           <p className="p-4 text-gray-500">
-            No transactions yet
+            No transactions found
           </p>
         ) : (
           <ul>
-            {transactions.map((t) => (
+            {filteredTransactions.map((t) => (
               <li
                 key={t.id}
                 className="flex justify-between items-center p-4 border-b"
@@ -68,6 +110,7 @@ export default function Transactions() {
             ))}
           </ul>
         )}
+
       </div>
 
     </div>
