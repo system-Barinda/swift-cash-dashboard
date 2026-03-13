@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
       {
         path: "transactions",
         element: <Transactions />,
-        loader: transactionsLoader,
+        loader: transactionsLoader,cd
       },
       {
         path: "transactions/add",
