@@ -1,14 +1,19 @@
 import { useMemo } from "react";
 import { useFinance } from "../context/FinanceContext";
 import { useSearchParams, useLoaderData } from "react-router-dom";
+
+import TransactionsHeader from "../components/TransactionsHeader";
+import BalanceCard from "../components/BalanceCard";
+import TransactionFilters from "../components/TransactionFilters";
+import TransactionList from "../components/TransactionList";
+
 import type { Transaction } from "../types/finance";
 
 export default function Transactions() {
-  const { state, deleteTransaction } = useFinance();
 
+  const { state, deleteTransaction } = useFinance();
   const loadedTransactions = useLoaderData() as Transaction[];
 
-  // Use context transactions if available, otherwise loader data
   const transactions =
     state.transactions.length > 0
       ? state.transactions
@@ -41,84 +46,17 @@ export default function Transactions() {
   return (
     <div className="p-6 space-y-6">
 
-      <h1 className="text-2xl font-bold">Transactions</h1>
+      <TransactionsHeader />
 
-      {/* Balance */}
-      <div className="bg-white p-4 rounded shadow">
-        <h2 className="text-lg font-semibold">Total Balance</h2>
-        <p className="text-2xl font-bold text-green-600">
-          ${balance}
-        </p>
-      </div>
+      <BalanceCard balance={balance} />
 
-      {/* Filters */}
-      <div className="flex gap-3">
-        <button
-          onClick={() => handleFilter(null)}
-          className="px-3 py-1 bg-gray-200 rounded"
-        >
-          All
-        </button>
+      <TransactionFilters handleFilter={handleFilter} />
 
-        <button
-          onClick={() => handleFilter("income")}
-          className="px-3 py-1 bg-green-200 rounded"
-        >
-          Income
-        </button>
-
-        <button
-          onClick={() => handleFilter("expense")}
-          className="px-3 py-1 bg-red-200 rounded"
-        >
-          Expense
-        </button>
-      </div>
-
-      {/* Transactions */}
       <div className="bg-white rounded shadow">
-
-        {filteredTransactions.length === 0 ? (
-          <p className="p-4 text-gray-500">
-            No transactions found
-          </p>
-        ) : (
-          <ul>
-            {filteredTransactions.map((t) => (
-              <li
-                key={t.id}
-                className="flex justify-between items-center p-4 border-b"
-              >
-                <div>
-                  <p className="font-semibold">{t.description}</p>
-                  <p className="text-sm text-gray-500">
-                    {t.category} • {new Date(t.date).toLocaleDateString()}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <span
-                    className={
-                      t.type === "income"
-                        ? "text-green-600 font-bold"
-                        : "text-red-600 font-bold"
-                    }
-                  >
-                    {t.type === "income" ? "+" : "-"}${t.amount}
-                  </span>
-
-                  <button
-                    onClick={() => deleteTransaction(t.id)}
-                    className="text-sm text-red-500 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-
+        <TransactionList
+          transactions={filteredTransactions}
+          deleteTransaction={deleteTransaction}
+        />
       </div>
 
     </div>
